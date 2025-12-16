@@ -1,0 +1,117 @@
+############################
+# .NET / C#
+############################
+bin/
+obj/
+[Ll]og/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+############################
+# Rider / JetBrains
+############################
+.idea/
+*.iml
+
+############################
+# Visual Studio
+############################
+.vs/
+.vscode/
+
+############################
+# OS
+############################
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+############################
+# MAUI / Xamarin / Mobile
+############################
+# Android
+**/Android/bin/
+**/Android/obj/
+*.apk
+*.aab
+*.keystore
+
+# iOS / MacCatalyst
+**/iOS/bin/
+**/iOS/obj/
+**/MacCatalyst/bin/
+**/MacCatalyst/obj/
+
+# iOS build output
+*.app
+*.ipa
+*.dSYM
+*.xcarchive
+
+############################
+# MAUI generated
+############################
+**/Resources/**/obj/
+**/MauiProgram.g.cs
+
+############################
+# NuGet
+############################
+*.nupkg
+.nuget/
+.nuget/packages/
+packages/
+
+############################
+# Publish / Build output
+############################
+publish/
+artifacts/
+
+############################
+# Secrets / Config
+############################
+appsettings.json
+appsettings.*.json
+secrets.json
+
+############################
+# Environment files
+############################
+.env
+.env.*
+
+############################
+# Logs
+############################
+*.log
+
+############################
+# Test results
+############################
+TestResults/
+
+############################
+# Backup / temp
+############################
+*.bak
+*.tmp
+*.swp
+*~
+
+############################
+# Coverage
+############################
+coverage/
+*.coverage
+*.coveragexml
+
