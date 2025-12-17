@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WishList.Maui.Pages.WishListPage"
+             Title="Wish List">
+    <ContentPage.Content>
+        <Grid RowDefinitions="*, Auto" ColumnDefinitions="*">
+        <CollectionView
+            Grid.Row="0"
+            ItemsSource="{Binding WishItems}"
+            SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="10" Padding="10" MaximumWidthRequest="400">
+                        <StackLayout Orientation="Horizontal" Spacing="10">
+                            <Image Source="{Binding PictureUrl}" WidthRequest="50" HeightRequest="50" />
+                            <StackLayout>
+                                <Label Text="{Binding Title}" FontAttributes="Bold" />
+                                <Label Text="{Binding Description}" FontSize="12" />
+                                <Label Text="{Binding WebsiteUrl}" FontSize="10" TextColor="Blue"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <HorizontalStackLayout Grid.Row="1"
+                            HorizontalOptions="Center"
+                            Margin="10">
+            <Button Text="Add new" WidthRequest="300" HorizontalOptions="Center" Command="{Binding GoToAddWishPage}"/>
+        </HorizontalStackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
