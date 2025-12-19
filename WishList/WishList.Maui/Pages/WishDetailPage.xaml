@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WishList.Maui.Pages.WishDetailPage"
+             Title="Add Wish">
+    <ContentPage.Content>
+        <VerticalStackLayout MaximumWidthRequest="400" HorizontalOptions="Center">
+            <Label Text="Picture URL"/>
+            <HorizontalStackLayout>
+                <Image WidthRequest="50" Source="{Binding WishItem.PictureUrl}"/>
+                <Entry Placeholder="www.book-picture.com" WidthRequest="350" Text="{Binding WishItem.PictureUrl}"/>
+            </HorizontalStackLayout>
+            
+            <Label Text="Title"/>
+            <Entry Placeholder="book" Text="{Binding WishItem.Title}"/>
+            
+            <Label Text="Website URL"/>
+            <Entry Placeholder="www.webstore.com/book" Text="{Binding WishItem.WebsiteUrl}"/>
+            
+            <Label Text="Description"/>
+            <Entry Placeholder="my favorite book" Text="{Binding WishItem.Description}"/>
+            
+            <Label Text="{Binding WishItemError}" TextColor="Red"/>
+            
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Button Command="{Binding CancelCommand}" Text="Cancel" BackgroundColor="DarkRed" Margin="10" TextColor="Wheat" WidthRequest="150" HorizontalOptions="Center"/>
+                <Button Command="{Binding SaveWishCommand}" Text="Save" BackgroundColor="DarkBlue" Margin="10" TextColor="Wheat" WidthRequest="150" HorizontalOptions="Center"/>
+            </HorizontalStackLayout>
+            
+        </VerticalStackLayout>
+    </ContentPage.Content>
+</ContentPage>
