@@ -8,32 +8,50 @@ namespace WishList.Maui.ViewModels;
 
 public class WishListViewModel : ViewModel
 {
-    private INavigationService _navigationService;
-    public ICommand GoToAddWishPage { get; }
+    private readonly INavigationService _navigationService;
 
     public WishListViewModel(INavigationService navigationService)
     {
         _navigationService = navigationService;
         
-        GoToAddWishPage = new Command( async () =>
+        GoToDetailWishPage = new Command( () =>
         {
-            await _navigationService.NavigateToAddWishPageAsync();
+            _navigationService.NavigateToDetailWishPageAsync();
         });
     }
-
-    private ObservableCollection<WishItem> _wishItems = new ObservableCollection<WishItem>
+    
+    // PROPERTIES
+    
+    private WishItem? _selectedWishItem =  null;
+    public WishItem? SelectedWishItem
     {
-        new WishItem(1, "https://i5.walmartimages.com/seo/Nerf-N-Series-Sprinter-Motorized-Blaster-16-Nerf-N1-Darts-Compatible-Only-with-Nerf-N-Series_5744fbc4-2103-4028-8292-7e020123101a.c1bd7364d9fe1cc91b23a48215b434c5.jpeg?odnHeight=573&odnWidth=573&odnBg=FFFFFF", "Nerf", "www.shop.nl", "Gekke geweer"),
-        new WishItem(2, "https://www.swissenduroteam.com/wp-content/uploads/2024/04/fluffy-pantoffels-595akg-1-600x600.jpg", "Pantoffels", "www.yolo.nl", "Lekker warm")
-    };
+        get => _selectedWishItem;
+        set
+        {
+            SetProperty(ref _selectedWishItem, value);
+            _navigationService.NavigateToDetailWishPageAsync(_selectedWishItem);
+        }
+    }
+
+    private ObservableCollection<WishItem> _wishItems =
+    [
+        new WishItem
+        {
+            Id = 1,
+            PictureUrl =
+                "https://i5.walmartimages.com/seo/Nerf-N-Series-Sprinter-Motorized-Blaster-16-Nerf-N1-Darts-Compatible-Only-with-Nerf-N-Series_5744fbc4-2103-4028-8292-7e020123101a.c1bd7364d9fe1cc91b23a48215b434c5.jpeg?odnHeight=573&odnWidth=573&odnBg=FFFFFF",
+            Title = "Nerf",
+            Description = "Coole gun",
+            WebsiteUrl = "Site",
+        }
+    ];
     public ObservableCollection<WishItem> WishItems
     {
         get => _wishItems;
-        set
-        {
-            if (value == null) return;
-            _wishItems = value;
-            OnPropertyChanged(nameof(WishItems));
-        }
+        set => SetProperty(ref _wishItems, value);
     }
+    
+    // COMMANDS
+    
+    public ICommand GoToDetailWishPage { get; }
 }

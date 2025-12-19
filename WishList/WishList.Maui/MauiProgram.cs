@@ -19,17 +19,28 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		Routing.RegisterRoute(nameof(WishListPage), typeof(WishListPage));
-		Routing.RegisterRoute(nameof(WishDetailPage), typeof(WishDetailPage));
-		Routing.RegisterRoute(nameof(ChristmasListPage), typeof(ChristmasListPage));
+		Routing.RegisterRoute(NavigationRoutes.WishListPage, typeof(WishListPage));
+		Routing.RegisterRoute(NavigationRoutes.WishDetailPage, typeof(WishDetailPage));
+		Routing.RegisterRoute(NavigationRoutes.ChristmasListPage, typeof(ChristmasListPage));
+		Routing.RegisterRoute(NavigationRoutes.ChristmasDetailPage, typeof(ChristmasDetailPage));
+		Routing.RegisterRoute(NavigationRoutes.PeopleListPage, typeof(PeopleListPage));
+		Routing.RegisterRoute(NavigationRoutes.PersonDetailPage, typeof(PersonDetailPage));
 		
 		builder.Services.AddTransient<MainPage>();
 		builder.Services.AddTransient<WishListPage>();
+		builder.Services.AddTransient<ChristmasListPage>();
 		builder.Services.AddTransient<WishDetailPage>();
+		builder.Services.AddTransient<ChristmasDetailPage>();
+		builder.Services.AddTransient<PeopleListPage>();
+		builder.Services.AddTransient<PersonDetailPage>();
 		
 		builder.Services.AddTransient<MainViewModel>();
 		builder.Services.AddTransient<WishListViewModel>();
+		builder.Services.AddTransient<ChristmasListViewModel>();
 		builder.Services.AddTransient<WishDetailViewModel>();
+		builder.Services.AddTransient<ChristmasDetailViewModel>();
+		builder.Services.AddTransient<PeopleListViewModel>();
+		builder.Services.AddTransient<PersonDetailViewModel>();
 		
 		builder.Services.AddTransient<INavigationService, NavigationService>();
 

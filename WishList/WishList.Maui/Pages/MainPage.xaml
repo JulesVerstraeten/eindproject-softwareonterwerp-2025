@@ -4,7 +4,7 @@
              x:Class="WishList.Maui.Pages.MainPage"
              Title="Home">
 
-    <ScrollView>
+    <ScrollView MaximumWidthRequest="400">
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">

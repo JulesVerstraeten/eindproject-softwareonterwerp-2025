@@ -5,11 +5,12 @@
              x:Class="WishList.Maui.Pages.WishListPage"
              Title="Wish List">
     <ContentPage.Content>
-        <Grid RowDefinitions="*, Auto" ColumnDefinitions="*">
+        <Grid RowDefinitions="*, Auto" ColumnDefinitions="*" MaximumWidthRequest="400">
         <CollectionView
             Grid.Row="0"
             ItemsSource="{Binding WishItems}"
-            SelectionMode="None">
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedWishItem}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border Margin="10" Padding="10" MaximumWidthRequest="400">
@@ -28,7 +29,7 @@
         <HorizontalStackLayout Grid.Row="1"
                             HorizontalOptions="Center"
                             Margin="10">
-            <Button Text="Add new" WidthRequest="300" HorizontalOptions="Center" Command="{Binding GoToAddWishPage}"/>
+            <Button Text="Add new" WidthRequest="300" HorizontalOptions="Center" Command="{Binding GoToDetailWishPage}"/>
         </HorizontalStackLayout>
         </Grid>
     </ContentPage.Content>

@@ -7,9 +7,9 @@ using WishList.Maui.ViewModels;
 
 namespace WishList.Maui.Pages;
 
-public partial class ChristmasListPage : ContentPage
+public partial class PeopleListPage : ContentPage
 {
-    public ChristmasListPage(ChristmasListViewModel viewModel)
+    public PeopleListPage(PeopleListViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;

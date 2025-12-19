@@ -2,11 +2,12 @@
 using System.Windows.Input;
 using WishList.Maui.Interfaces;
 using WishList.Maui.Models;
+using WishList.Maui.Services;
 using WishList.Maui.ViewModels.Base;
 
 namespace WishList.Maui.ViewModels;
 
-public class WishDetailViewModel : ViewModel
+public class WishDetailViewModel : ViewModel, IQueryAttributable
 {
     private INavigationService _navigationService;
     
@@ -14,38 +15,26 @@ public class WishDetailViewModel : ViewModel
     {
         _navigationService = navigationService;
         
-        CancelCommand = new Command(async () => await Cancel());
-        SaveWishCommand = new Command(async () => await SaveWish());
+        CancelCommand = new Command(Cancel);
+        SaveWishCommand = new Command(SaveWish);
+
+        WishItem = new WishItem();
     }
     
     // PROPERTIES FOR WISH FORM
     
-    private string _title = string.Empty;
-    public string Title
+    private WishItem _wishItem;
+    public WishItem WishItem
     {
-        get => _title;
-        set => SetProperty(ref _title, value);
-    }
-    
-    private string _description = string.Empty;
-    public string Description
-    {
-        get => _description;
-        set => SetProperty(ref _description, value);
+        get => _wishItem;
+        set => SetProperty(ref _wishItem, value);
     }
 
-    private string _pictureUrl = string.Empty;
-    public string PictureUrl
+    private string _wishItemError;
+    public string WishItemError
     {
-        get => _pictureUrl;
-        set => SetProperty(ref _pictureUrl, value);
-    }
-    
-    private string _websiteUrl = string.Empty;
-    public string WebsiteUrl
-    {
-        get => _websiteUrl;
-        set => SetProperty(ref _websiteUrl, value);
+        get => _wishItemError;
+        set => SetProperty(ref _wishItemError, value);
     }
     
     // COMMANDS
@@ -53,19 +42,47 @@ public class WishDetailViewModel : ViewModel
     public ICommand CancelCommand { get; }
     public ICommand SaveWishCommand { get; }
 
-    private async Task Cancel()
+    private void Cancel()
     {
-        await _navigationService.GoBackAsync();
-    }
+        _navigationService.GoBackAsync();
+    } 
 
-    private async Task SaveWish()
+    private void SaveWish()
     {
-        var newWish = new WishItem
-        (
-            Title: Title,
-            Description: Description,
-            PictureUrl: PictureUrl,
-            WebsiteUrl: WebsiteUrl
-        );
+        bool isValid = true;
+
+        if (string.IsNullOrEmpty(WishItem.Title))
+        {
+            WishItemError = "Title is required";
+            isValid = false;
+        } 
+        else if (string.IsNullOrEmpty(WishItem.WebsiteUrl))
+        {
+            WishItemError = "WebsiteUrl is required";
+            isValid = false;
+        } 
+        else if (!Uri.TryCreate(WishItem.WebsiteUrl, UriKind.Absolute, out var uri) ||
+                 (uri.Scheme == Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+        {
+            WishItemError = "Invalid website url (https://www.site.nl or http://www.site.nl)";
+        }
+        else
+        {
+            WishItemError = string.Empty;
+        }
+        
+        if (!isValid) return;
+        
+        Debugger.Log(0, "WishList", WishItem.ToString());
+    }
+    
+    // PARAMETERS CHECKER
+    
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.TryGetValue(NavigationParameters.WishItem, out var wishItem) && wishItem is WishItem wish)
+        {
+            WishItem = wish;
+        }
     }
 }

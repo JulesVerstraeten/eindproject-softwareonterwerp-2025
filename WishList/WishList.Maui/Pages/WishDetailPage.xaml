@@ -6,21 +6,22 @@
              Title="Add Wish">
     <ContentPage.Content>
         <VerticalStackLayout MaximumWidthRequest="400" HorizontalOptions="Center">
-            
             <Label Text="Picture URL"/>
             <HorizontalStackLayout>
-                <Image WidthRequest="50"/>
-                <Entry Placeholder="www.book-picture.com" WidthRequest="350" Text="{Binding PictureUrl}"/>
+                <Image WidthRequest="50" Source="{Binding WishItem.PictureUrl}"/>
+                <Entry Placeholder="www.book-picture.com" WidthRequest="350" Text="{Binding WishItem.PictureUrl}"/>
             </HorizontalStackLayout>
             
             <Label Text="Title"/>
-            <Entry Placeholder="book" Text="{Binding Title}"/>
+            <Entry Placeholder="book" Text="{Binding WishItem.Title}"/>
             
             <Label Text="Website URL"/>
-            <Entry Placeholder="www.webstore.com/book" Text="{Binding WebsiteUrl}"/>
+            <Entry Placeholder="www.webstore.com/book" Text="{Binding WishItem.WebsiteUrl}"/>
             
             <Label Text="Description"/>
-            <Entry Placeholder="my favorite book" Text="{Binding Description}"/>
+            <Entry Placeholder="my favorite book" Text="{Binding WishItem.Description}"/>
+            
+            <Label Text="{Binding WishItemError}" TextColor="Red"/>
             
             <HorizontalStackLayout HorizontalOptions="Center">
                 <Button Command="{Binding CancelCommand}" Text="Cancel" BackgroundColor="DarkRed" Margin="10" TextColor="Wheat" WidthRequest="150" HorizontalOptions="Center"/>
