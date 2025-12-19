@@ -15,15 +15,15 @@ public class PeopleListViewModel : ViewModel
         
         GoToPersonDetailPageCommand = new Command(_goToPersonDetailPage);
 
-        People = new List<Person>
+        People = new List<PersonUiModel>
         {
-            new Person
+            new PersonUiModel
             {
                 Id = 1,
                 FirstName = "John",
                 LastName = "Doe",
             },
-            new Person
+            new PersonUiModel
             {
                 Id = 2,
                 FirstName = "Jane",
@@ -34,15 +34,15 @@ public class PeopleListViewModel : ViewModel
     
     // PROPERTIES
     
-    private List<Person> _people;
-    public List<Person> People
+    private List<PersonUiModel> _people;
+    public List<PersonUiModel> People
     {
         get => _people;
         set => SetProperty(ref _people, value);
     }
     
-    private Person _selectedPerson;
-    public Person SelectedPerson
+    private PersonUiModel _selectedPerson;
+    public PersonUiModel SelectedPerson
     {
         get => _selectedPerson;
         set

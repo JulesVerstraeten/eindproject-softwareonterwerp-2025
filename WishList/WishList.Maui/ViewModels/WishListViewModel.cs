@@ -22,8 +22,8 @@ public class WishListViewModel : ViewModel
     
     // PROPERTIES
     
-    private WishItem? _selectedWishItem =  null;
-    public WishItem? SelectedWishItem
+    private WishItemUiModel? _selectedWishItem =  null;
+    public WishItemUiModel? SelectedWishItem
     {
         get => _selectedWishItem;
         set
@@ -33,9 +33,9 @@ public class WishListViewModel : ViewModel
         }
     }
 
-    private ObservableCollection<WishItem> _wishItems =
+    private ObservableCollection<WishItemUiModel> _wishItems =
     [
-        new WishItem
+        new WishItemUiModel
         {
             Id = 1,
             PictureUrl =
@@ -45,7 +45,7 @@ public class WishListViewModel : ViewModel
             WebsiteUrl = "Site",
         }
     ];
-    public ObservableCollection<WishItem> WishItems
+    public ObservableCollection<WishItemUiModel> WishItems
     {
         get => _wishItems;
         set => SetProperty(ref _wishItems, value);

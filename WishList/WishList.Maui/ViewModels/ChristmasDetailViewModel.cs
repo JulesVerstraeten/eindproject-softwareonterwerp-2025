@@ -18,17 +18,17 @@ public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
         CancelCommand = new Command(Cancel);
         SaveChristmasItemCommand = new Command(SaveChristmasItem);
 
-        ChristmasItem = new ChristmasItem();
+        ChristmasItem = new ChristmasItemUiModel();
         
-        People = new List<Person>
+        People = new List<PersonUiModel>
         {
-            new Person
+            new PersonUiModel
             {
                 Id = 1,
                 FirstName = "John",
                 LastName = "Doe",
             },
-            new Person
+            new PersonUiModel
             {
                 Id = 2,
                 FirstName = "Jane",
@@ -39,15 +39,15 @@ public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
     
     // PROPERTIES
 
-    private List<Person> _people;
-    public List<Person> People
+    private List<PersonUiModel> _people;
+    public List<PersonUiModel> People
     {
         get => _people;
         set => SetProperty(ref _people, value);
     }
     
-    private ChristmasItem _christmasItem;
-    public ChristmasItem ChristmasItem
+    private ChristmasItemUiModel _christmasItem;
+    public ChristmasItemUiModel ChristmasItem
     {
         get => _christmasItem;
         set => SetProperty(ref _christmasItem, value);
@@ -107,9 +107,10 @@ public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (!query.TryGetValue(NavigationParameters.ChristmasItem, out var christmasItem) ||
-            christmasItem is not ChristmasItem item) return;
+            christmasItem is not ChristmasItemUiModel item) return;
         
         ChristmasItem = item;
+        PriceInput = item.Price.ToString() ?? string.Empty;
 
         if (item.ForPerson == null) return;
         var matchedPerson = People.FirstOrDefault(p => p.Id == item.ForPerson.Id);
