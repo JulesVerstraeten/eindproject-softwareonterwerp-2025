@@ -18,13 +18,13 @@ public class WishDetailViewModel : ViewModel, IQueryAttributable
         CancelCommand = new Command(Cancel);
         SaveWishCommand = new Command(SaveWish);
 
-        WishItem = new WishItem();
+        WishItem = new WishItemUiModel();
     }
     
     // PROPERTIES FOR WISH FORM
     
-    private WishItem _wishItem;
-    public WishItem WishItem
+    private WishItemUiModel _wishItem;
+    public WishItemUiModel WishItem
     {
         get => _wishItem;
         set => SetProperty(ref _wishItem, value);
@@ -80,7 +80,7 @@ public class WishDetailViewModel : ViewModel, IQueryAttributable
     
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (query.TryGetValue(NavigationParameters.WishItem, out var wishItem) && wishItem is WishItem wish)
+        if (query.TryGetValue(NavigationParameters.WishItem, out var wishItem) && wishItem is WishItemUiModel wish)
         {
             WishItem = wish;
         }

@@ -19,15 +19,15 @@ public class ChristmasListViewModel : ViewModel
         GoToChristmasDetailPageCommand = new Command(_goToChristmasDetailPage);
         GoToPeopleListPageCommand = new Command(_goToPeoplePage);
 
-        People = new List<Person>
+        People = new List<PersonUiModel>
         {
-            new Person
+            new PersonUiModel
             {
                 Id = 1,
                 FirstName = "John",
                 LastName = "Doe",
             },
-            new Person
+            new PersonUiModel
             {
                 Id = 2,
                 FirstName = "Jane",
@@ -35,9 +35,9 @@ public class ChristmasListViewModel : ViewModel
             }
         };
 
-        ChristmasItems = new ObservableCollection<ChristmasItem>
+        ChristmasItems = new ObservableCollection<ChristmasItemUiModel>
         {
-            new ChristmasItem
+            new ChristmasItemUiModel
             {
                 Id = 1,
                 PictureUrl =
@@ -53,15 +53,15 @@ public class ChristmasListViewModel : ViewModel
     
     // PROPERTIES
 
-    private List<Person> _people;
-    public List<Person> People
+    private List<PersonUiModel> _people;
+    public List<PersonUiModel> People
     {
         get => _people;
         set => SetProperty(ref _people, value);
     }
     
-    private ChristmasItem? _selectedChristmasItem = null;
-    public ChristmasItem? SelectedChristmasItem
+    private ChristmasItemUiModel? _selectedChristmasItem = null;
+    public ChristmasItemUiModel? SelectedChristmasItem
     {
         get => _selectedChristmasItem;
         set
@@ -71,8 +71,8 @@ public class ChristmasListViewModel : ViewModel
         }
     }
 
-    private ObservableCollection<ChristmasItem> _christmasItems = new ObservableCollection<ChristmasItem>();
-    public ObservableCollection<ChristmasItem> ChristmasItems
+    private ObservableCollection<ChristmasItemUiModel> _christmasItems = new ObservableCollection<ChristmasItemUiModel>();
+    public ObservableCollection<ChristmasItemUiModel> ChristmasItems
     {
         get => _christmasItems;
         set => SetProperty(ref _christmasItems, value);

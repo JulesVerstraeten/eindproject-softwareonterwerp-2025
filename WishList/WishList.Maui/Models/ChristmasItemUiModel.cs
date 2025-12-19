@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace WishList.Maui.Models;
 
-public class ChristmasItem : WishItem, INotifyPropertyChanged
+public class ChristmasItemUiModel : WishItemUiModel, INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
     
@@ -12,8 +12,8 @@ public class ChristmasItem : WishItem, INotifyPropertyChanged
     public string Title { get; set; } = string.Empty;
     public string? WebsiteUrl { get; set; }
     public string? Description  { get; set; }
-    private Person? _forPerson;
-    public Person? ForPerson
+    private PersonUiModel? _forPerson;
+    public PersonUiModel? ForPerson
     {
         get => _forPerson;
         set
@@ -30,9 +30,9 @@ public class ChristmasItem : WishItem, INotifyPropertyChanged
     public double? Price { get; set; }
     public string? PriceString => Price?.ToString("C", CultureInfo.GetCultureInfo("nl-NL"));
     
-    public ChristmasItem() : base() {}
+    public ChristmasItemUiModel() : base() {}
 
-    public ChristmasItem(int? id, string pictureUrl, string title, string websiteUrl, string description, double price, Person? forPerson = null)
+    public ChristmasItemUiModel(int? id, string pictureUrl, string title, string websiteUrl, string description, double price, PersonUiModel? forPerson = null)
         : base(id, pictureUrl, title, websiteUrl, description)
     {
         ForPerson = forPerson;
