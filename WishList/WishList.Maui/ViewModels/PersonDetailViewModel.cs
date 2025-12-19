@@ -18,13 +18,13 @@ public class PersonDetailViewModel : ViewModel, IQueryAttributable
         CancelCommand = new Command(Cancel);
         SavePersonCommand = new Command(SavePerson);
 
-        PersonToSave = new Person();
+        PersonToSave = new PersonUiModel();
     }
     
     // PROPERTIES
 
-    private Person _personToSave;
-    public Person PersonToSave
+    private PersonUiModel _personToSave;
+    public PersonUiModel PersonToSave
     {
         get => _personToSave;
         set => SetProperty(ref _personToSave, value);
@@ -69,7 +69,7 @@ public class PersonDetailViewModel : ViewModel, IQueryAttributable
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (!query.TryGetValue(NavigationParameters.Person, out var personItem) ||
-            personItem is not Person person) return;
+            personItem is not PersonUiModel person) return;
         PersonToSave = person;
     }
 }

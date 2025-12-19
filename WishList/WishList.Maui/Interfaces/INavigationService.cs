@@ -5,10 +5,10 @@ namespace WishList.Maui.Interfaces;
 public interface INavigationService
 {
     Task NavigateToWishListPageAsync();
-    Task NavigateToDetailWishPageAsync(WishItem? wishItem = null);
+    Task NavigateToDetailWishPageAsync(WishItemUiModel? wishItem = null);
     Task NavigateToChristmasListPageAsync();
-    Task NavigateToChristmasDetailPageAsync(ChristmasItem? christmasItem = null);
+    Task NavigateToChristmasDetailPageAsync(ChristmasItemUiModel? christmasItem = null);
     Task NavigateToPeopleListPageAsync();
-    Task NavigateToPersonDetailPageAsync(Person? person = null);
+    Task NavigateToPersonDetailPageAsync(PersonUiModel? person = null);
     Task GoBackAsync();
 }
