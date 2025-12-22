@@ -13,6 +13,25 @@ public class ChristmasItemRepository(WishlistDbContext context) : IChristmasItem
         try
         {
             var entities = await _db.Table<ChristmasItemEntity>().ToListAsync();
+            var personsId = entities
+                .Where(i => i.ForPersonId is > 0)
+                .Select(i => i.ForPersonId!.Value)
+                .Distinct()
+                .ToList();
+            var personEntities = await _db.Table<PersonEntity>()
+                .Where(p => personsId.Contains(p.Id))
+                .ToListAsync();
+            var personDict = personEntities.ToDictionary(p => p.Id);
+
+            foreach (var entity in entities)
+            {
+                if (entity.ForPersonId is > 0 && 
+                    personDict.TryGetValue(entity.ForPersonId.Value, out var person))
+                {
+                    entity.ForPerson = person;
+                }
+            }
+            
             return entities;
         }
         catch (Exception e)
@@ -26,6 +45,10 @@ public class ChristmasItemRepository(WishlistDbContext context) : IChristmasItem
         try
         {
             var entity =  await _db.FindAsync<ChristmasItemEntity>(christmasItemId);
+            if (entity.ForPersonId is > 0)
+            {
+                entity.ForPerson = await _db.GetAsync<PersonEntity>(entity.ForPersonId);
+            }
             return entity;
         }
         catch (Exception e)
@@ -38,7 +61,7 @@ public class ChristmasItemRepository(WishlistDbContext context) : IChristmasItem
     {
         try
         {
-            if (itemEntity == null || itemEntity.Id == 0)
+            if (itemEntity.Id == 0)
             {
                 await _db.InsertAsync(itemEntity);
             }

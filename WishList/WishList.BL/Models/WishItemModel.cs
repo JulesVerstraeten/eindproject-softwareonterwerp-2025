@@ -1,10 +1,10 @@
 ﻿namespace WishList.BL.Models;
 
 public record WishItemModel
-(
-    string Title,
-    string WebsiteUrl,
-    int? Id = null,
-    string? PictureUrl = null,
-    string? Description = null
-);
+{
+    public int? Id { get; init; }
+    public required string Title { get; init; }
+    public required string WebsiteUrl { get; init; }
+    public string? PictureUrl { get; init; }
+    public string? Description { get; init; }
+};

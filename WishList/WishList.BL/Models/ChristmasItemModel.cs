@@ -1,12 +1,13 @@
 ﻿namespace WishList.BL.Models;
 
 public record ChristmasItemModel
-(
-    string Title,
-    string WebsiteUrl,
-    int? Id = null,
-    string? PictureUrl = null,
-    string? Description = null,
-    PersonModel? ForPerson = null,
-    double? Price = null
-);
+{
+    public int? Id { get; init; }
+    public required string Title { get; init; }
+    public required string WebsiteUrl { get; init; }
+    public string? PictureUrl { get; init; } 
+    public string? Description { get; init; }
+    public double? Price { get; init; }
+    public PersonModel? ForPerson { get; set; }
+    public int? ForPersonId { get; init; }
+};

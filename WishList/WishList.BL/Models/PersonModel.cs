@@ -1,8 +1,8 @@
 ﻿namespace WishList.BL.Models;
 
 public record PersonModel
-(
-    int? Id,
-    string FirstName,
-    string LastName
-);
+{
+    public int? Id { get; init; }
+    public required string FirstName { get; init; }
+    public string? LastName { get; init; }
+};

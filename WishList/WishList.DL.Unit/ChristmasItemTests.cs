@@ -20,7 +20,7 @@ public class ChristmasItemTests
     }
 
     [Fact]
-    public async Task SaveAndRetrieveChristmasItems()
+    public async Task SaveAndRetrieveChristmasItemsTests()
     {
         var item1 = new ChristmasItemEntity
         {
@@ -29,7 +29,7 @@ public class ChristmasItemTests
             Description = "Cool toy",
             PictureUrl = "https://example.com/nerf.jpg",
             Price = 19.99,
-            PersonId = 1
+            ForPersonId = null
         };
 
         var item2 = new ChristmasItemEntity
@@ -39,7 +39,7 @@ public class ChristmasItemTests
             Description = "Interesting read",
             PictureUrl = "https://example.com/book.jpg",
             Price = 12.50,
-            PersonId = 2
+            ForPersonId = null
         };
 
         await _christmasItemRepository.SaveChristmasItemAsync(item1);
