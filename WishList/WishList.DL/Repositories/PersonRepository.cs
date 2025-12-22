@@ -26,6 +26,8 @@ public class PersonRepository(WishlistDbContext context) : IPersonRepository
         try
         {
             var entity = await _db.FindAsync<PersonEntity>(personId);
+            if (entity == null)
+                throw new KeyNotFoundException($"Person with Id {personId} not found.");
             return entity;
         }
         catch (Exception e)
