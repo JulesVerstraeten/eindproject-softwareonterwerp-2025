@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using WishList.BL.Interfaces;
+using WishList.Maui.Extensions;
 using WishList.Maui.Interfaces;
 using WishList.Maui.Models;
 using WishList.Maui.ViewModels.Base;
@@ -9,59 +11,44 @@ namespace WishList.Maui.ViewModels;
 public class ChristmasListViewModel : ViewModel
 {
     private readonly INavigationService _navigationService;
+    private readonly IChristmasItemService _christmasItemService;
     
     // CONSTRUCTOR
 
-    public ChristmasListViewModel(INavigationService navigationService)
+    public ChristmasListViewModel(INavigationService navigationService, IChristmasItemService christmasItemService)
     {
         _navigationService = navigationService;
+        _christmasItemService = christmasItemService;
         
         GoToChristmasDetailPageCommand = new Command(_goToChristmasDetailPage);
         GoToPeopleListPageCommand = new Command(_goToPeoplePage);
 
-        People = new List<PersonUiModel>
+        ChristmasItems = [];
+    }
+    
+    // INITIALIZER
+    
+    public async Task InitializeAsync()
+    {
+        var results = await _christmasItemService.GetAllChristmasItemsAsync();
+        ChristmasItems.Clear();
+        foreach (var result in results)
         {
-            new PersonUiModel
-            {
-                Id = 1,
-                FirstName = "John",
-                LastName = "Doe",
-            },
-            new PersonUiModel
-            {
-                Id = 2,
-                FirstName = "Jane",
-                LastName = "Doe",
-            }
-        };
-
-        ChristmasItems = new ObservableCollection<ChristmasItemUiModel>
-        {
-            new ChristmasItemUiModel
-            {
-                Id = 1,
-                PictureUrl =
-                    "https://i5.walmartimages.com/seo/Nerf-N-Series-Sprinter-Motorized-Blaster-16-Nerf-N1-Darts-Compatible-Only-with-Nerf-N-Series_5744fbc4-2103-4028-8292-7e020123101a.c1bd7364d9fe1cc91b23a48215b434c5.jpeg?odnHeight=573&odnWidth=573&odnBg=FFFFFF",
-                Title = "Nerf",
-                Description = "Coole gun",
-                WebsiteUrl = "Site",
-                Price = 14.56,
-                ForPerson = People[0]
-            }
-        };
+            ChristmasItems.Add(result.AsViewModel());
+        }
     }
     
     // PROPERTIES
 
-    private List<PersonUiModel> _people;
-    public List<PersonUiModel> People
+    private List<PersonViewModel> _people;
+    public List<PersonViewModel> People
     {
         get => _people;
         set => SetProperty(ref _people, value);
     }
     
-    private ChristmasItemUiModel? _selectedChristmasItem = null;
-    public ChristmasItemUiModel? SelectedChristmasItem
+    private ChristmasItemViewModel? _selectedChristmasItem = null;
+    public ChristmasItemViewModel? SelectedChristmasItem
     {
         get => _selectedChristmasItem;
         set
@@ -71,8 +58,8 @@ public class ChristmasListViewModel : ViewModel
         }
     }
 
-    private ObservableCollection<ChristmasItemUiModel> _christmasItems = new ObservableCollection<ChristmasItemUiModel>();
-    public ObservableCollection<ChristmasItemUiModel> ChristmasItems
+    private ObservableCollection<ChristmasItemViewModel> _christmasItems = new ObservableCollection<ChristmasItemViewModel>();
+    public ObservableCollection<ChristmasItemViewModel> ChristmasItems
     {
         get => _christmasItems;
         set => SetProperty(ref _christmasItems, value);
@@ -92,4 +79,5 @@ public class ChristmasListViewModel : ViewModel
     {
         _navigationService.NavigateToPeopleListPageAsync();
     }
+
 }

@@ -1,17 +1,17 @@
 ﻿namespace WishList.Maui.Models;
 
-public class PersonUiModel
+public class PersonViewModel
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
     public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; }  = string.Empty;
+    public string? LastName { get; set; }
     public string FullName => $"{FirstName} {(string.IsNullOrEmpty(LastName) ? string.Empty : LastName)}".Trim();
 
-    public PersonUiModel()
+    public PersonViewModel()
     {
         
     }
-    public PersonUiModel(int id, string firstName, string lastName)
+    public PersonViewModel(int id, string firstName, string lastName)
     {
         Id = id;
         FirstName = firstName;

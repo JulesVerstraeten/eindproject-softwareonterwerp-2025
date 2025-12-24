@@ -9,9 +9,18 @@ namespace WishList.Maui.Pages;
 
 public partial class ChristmasListPage : ContentPage
 {
-    public ChristmasListPage(ChristmasListViewModel viewModel)
+    private readonly ChristmasListViewModel _christmasListViewModel;
+    public ChristmasListPage(ChristmasListViewModel christmasListViewModel)
     {
         InitializeComponent();
-        BindingContext = viewModel;
+        _christmasListViewModel = christmasListViewModel;
+        BindingContext = _christmasListViewModel;
+        _ = _christmasListViewModel.InitializeAsync();
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _ = _christmasListViewModel.InitializeAsync();
     }
 }

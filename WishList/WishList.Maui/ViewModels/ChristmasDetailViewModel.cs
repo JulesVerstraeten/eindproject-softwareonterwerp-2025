@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
+using WishList.BL.Interfaces;
+using WishList.Maui.Extensions;
 using WishList.Maui.Interfaces;
 using WishList.Maui.Models;
 using WishList.Maui.Services;
@@ -9,45 +12,46 @@ namespace WishList.Maui.ViewModels;
 
 public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
 {
-    private INavigationService _navigationService;
+    private readonly INavigationService _navigationService;
+    private readonly IChristmasItemService _christmasItemService;
+    private readonly IPersonService _personService;
     
-    public ChristmasDetailViewModel(INavigationService navigationService)
+    public ChristmasDetailViewModel(INavigationService navigationService, IPersonService personService, IChristmasItemService christmasItemService)
     {
         _navigationService = navigationService;
+        _christmasItemService = christmasItemService;
+        _personService = personService;
         
         CancelCommand = new Command(Cancel);
-        SaveChristmasItemCommand = new Command(SaveChristmasItem);
+        SaveChristmasItemCommand = new Command(async void () => await SaveChristmasItem());
 
-        ChristmasItem = new ChristmasItemUiModel();
-        
-        People = new List<PersonUiModel>
+        ChristmasItem = new ChristmasItemViewModel();
+        People = [];
+    }
+    
+    // INITIALIZER
+
+    public async Task InitializeAsync()
+    {
+        var results = await _personService.GetAllPersonsAsync();
+        People.Clear();
+        foreach (var result in results)
         {
-            new PersonUiModel
-            {
-                Id = 1,
-                FirstName = "John",
-                LastName = "Doe",
-            },
-            new PersonUiModel
-            {
-                Id = 2,
-                FirstName = "Jane",
-                LastName = "Doe",
-            }
-        };
+            People.Add(result.AsViewModel());
+        }
     }
     
     // PROPERTIES
 
-    private List<PersonUiModel> _people;
-    public List<PersonUiModel> People
+    private ObservableCollection<PersonViewModel> _people;
+    public ObservableCollection<PersonViewModel> People
     {
         get => _people;
         set => SetProperty(ref _people, value);
     }
     
-    private ChristmasItemUiModel _christmasItem;
-    public ChristmasItemUiModel ChristmasItem
+    private ChristmasItemViewModel _christmasItem;
+    public ChristmasItemViewModel ChristmasItem
     {
         get => _christmasItem;
         set => SetProperty(ref _christmasItem, value);
@@ -77,7 +81,7 @@ public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
         _navigationService.GoBackAsync();
     } 
 
-    private void SaveChristmasItem()
+    private async Task SaveChristmasItem()
     {
         bool isValid = true;
 
@@ -99,7 +103,8 @@ public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
         
         ChristmasItem.Price = string.IsNullOrWhiteSpace(PriceInput) ? null : double.Parse(PriceInput) ;
         
-        Debugger.Log(0, "Christmas item", ChristmasItem.ToString());
+        await _christmasItemService.SaveChristmasItemAsync(ChristmasItem.AsModel());
+        await _navigationService.GoBackAsync();
     }
     
     // PARAMETERS CHECKER
@@ -107,7 +112,7 @@ public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (!query.TryGetValue(NavigationParameters.ChristmasItem, out var christmasItem) ||
-            christmasItem is not ChristmasItemUiModel item) return;
+            christmasItem is not ChristmasItemViewModel item) return;
         
         ChristmasItem = item;
         PriceInput = item.Price.ToString() ?? string.Empty;

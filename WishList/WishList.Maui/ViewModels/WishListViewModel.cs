@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using WishList.BL.Interfaces;
+using WishList.Maui.Extensions;
 using WishList.Maui.Interfaces;
 using WishList.Maui.Models;
 using WishList.Maui.ViewModels.Base;
@@ -9,21 +11,39 @@ namespace WishList.Maui.ViewModels;
 public class WishListViewModel : ViewModel
 {
     private readonly INavigationService _navigationService;
+    private readonly IWishItemService _wishItemService;
 
-    public WishListViewModel(INavigationService navigationService)
+    public WishListViewModel(INavigationService navigationService, IWishItemService wishItemService)
     {
         _navigationService = navigationService;
+        _wishItemService = wishItemService;
         
         GoToDetailWishPage = new Command( () =>
         {
             _navigationService.NavigateToDetailWishPageAsync();
         });
+
+        WishItems = [];
+    }
+    
+    // INITIALISER
+
+    public async Task InitializeAsync()
+    {
+        var results = await _wishItemService.GetAllWishItemsAsync();
+        WishItems.Clear();
+        foreach (var result in results)
+        {
+            WishItems.Add(
+                result.AsViewModel()    
+            );
+        }
     }
     
     // PROPERTIES
     
-    private WishItemUiModel? _selectedWishItem =  null;
-    public WishItemUiModel? SelectedWishItem
+    private WishItemViewModel? _selectedWishItem;
+    public WishItemViewModel? SelectedWishItem
     {
         get => _selectedWishItem;
         set
@@ -33,19 +53,8 @@ public class WishListViewModel : ViewModel
         }
     }
 
-    private ObservableCollection<WishItemUiModel> _wishItems =
-    [
-        new WishItemUiModel
-        {
-            Id = 1,
-            PictureUrl =
-                "https://i5.walmartimages.com/seo/Nerf-N-Series-Sprinter-Motorized-Blaster-16-Nerf-N1-Darts-Compatible-Only-with-Nerf-N-Series_5744fbc4-2103-4028-8292-7e020123101a.c1bd7364d9fe1cc91b23a48215b434c5.jpeg?odnHeight=573&odnWidth=573&odnBg=FFFFFF",
-            Title = "Nerf",
-            Description = "Coole gun",
-            WebsiteUrl = "Site",
-        }
-    ];
-    public ObservableCollection<WishItemUiModel> WishItems
+    private ObservableCollection<WishItemViewModel> _wishItems;
+    public ObservableCollection<WishItemViewModel> WishItems
     {
         get => _wishItems;
         set => SetProperty(ref _wishItems, value);

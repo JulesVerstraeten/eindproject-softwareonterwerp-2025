@@ -16,7 +16,7 @@ public class NavigationService : INavigationService
         return GoToAsync(nameof(WishListPage));
     }
 
-    public Task NavigateToDetailWishPageAsync(WishItemUiModel? wishItem = null)
+    public Task NavigateToDetailWishPageAsync(WishItemViewModel? wishItem = null)
     {
         return GoToAsync(NavigationRoutes.WishDetailPage, new Dictionary<string, object?>
         {
@@ -24,7 +24,7 @@ public class NavigationService : INavigationService
         });
     }
     
-    public Task NavigateToChristmasDetailPageAsync(ChristmasItemUiModel? christmasItem = null)
+    public Task NavigateToChristmasDetailPageAsync(ChristmasItemViewModel? christmasItem = null)
     {
         return GoToAsync(NavigationRoutes.ChristmasDetailPage, new Dictionary<string, object?>
         {
@@ -37,7 +37,7 @@ public class NavigationService : INavigationService
         return GoToAsync(NavigationRoutes.PeopleListPage);
     }
 
-    public Task NavigateToPersonDetailPageAsync(PersonUiModel? person = null)
+    public Task NavigateToPersonDetailPageAsync(PersonViewModel? person = null)
     {
         return GoToAsync(NavigationRoutes.PersonDetailPage, new Dictionary<string, object?>
         {

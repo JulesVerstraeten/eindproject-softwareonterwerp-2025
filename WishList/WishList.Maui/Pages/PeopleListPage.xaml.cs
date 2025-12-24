@@ -9,9 +9,19 @@ namespace WishList.Maui.Pages;
 
 public partial class PeopleListPage : ContentPage
 {
-    public PeopleListPage(PeopleListViewModel viewModel)
+    private readonly PersonListViewModel _viewModel;
+    
+    public PeopleListPage(PersonListViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
+        _viewModel = viewModel;
+        _ = _viewModel.InitializeAsync();
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _ = _viewModel.InitializeAsync();
     }
 }
