@@ -77,4 +77,8 @@
 	  </Compile>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\WishList.BL\WishList.BL.csproj" />
+	</ItemGroup>
+
 </Project>

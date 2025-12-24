@@ -1,6 +1,6 @@
 ﻿namespace WishList.Maui.Models;
 
-public class WishItemUiModel
+public class WishItemViewModel
 {
     public int? Id { get; set; }
     public string? PictureUrl { get; set; }
@@ -8,11 +8,11 @@ public class WishItemUiModel
     public string WebsiteUrl { get; set; } = string.Empty;
     public string? Description  { get; set; }
 
-    public WishItemUiModel()
+    public WishItemViewModel()
     {
     }
     
-    public WishItemUiModel(int? id, string pictureUrl, string title, string websiteUrl, string description)
+    public WishItemViewModel(int? id, string pictureUrl, string title, string websiteUrl, string description)
     {
         Id = id;
         PictureUrl = pictureUrl;

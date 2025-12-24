@@ -1,7 +1,7 @@
 ﻿using SQLite;
 using WishList.DL.Entities;
 
-namespace WishList.DL;
+namespace WishList.DL.Context;
 
 public sealed class WishlistDbContext
 {

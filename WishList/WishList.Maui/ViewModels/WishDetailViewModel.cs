@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
+using WishList.BL.Interfaces;
+using WishList.Maui.Extensions;
 using WishList.Maui.Interfaces;
 using WishList.Maui.Models;
 using WishList.Maui.Services;
@@ -10,21 +12,26 @@ namespace WishList.Maui.ViewModels;
 public class WishDetailViewModel : ViewModel, IQueryAttributable
 {
     private INavigationService _navigationService;
+    private IWishItemService _wishItemService;
     
-    public WishDetailViewModel(INavigationService navigationService)
+    public WishDetailViewModel(INavigationService navigationService, IWishItemService wishItemService)
     {
         _navigationService = navigationService;
+        _wishItemService = wishItemService;
         
         CancelCommand = new Command(Cancel);
-        SaveWishCommand = new Command(SaveWish);
+        SaveWishCommand = new Command( async void () =>
+        {
+            await SaveWish();
+        });
 
-        WishItem = new WishItemUiModel();
+        WishItem = new WishItemViewModel();
     }
     
     // PROPERTIES FOR WISH FORM
     
-    private WishItemUiModel _wishItem;
-    public WishItemUiModel WishItem
+    private WishItemViewModel _wishItem;
+    public WishItemViewModel WishItem
     {
         get => _wishItem;
         set => SetProperty(ref _wishItem, value);
@@ -47,7 +54,7 @@ public class WishDetailViewModel : ViewModel, IQueryAttributable
         _navigationService.GoBackAsync();
     } 
 
-    private void SaveWish()
+    private async Task SaveWish()
     {
         bool isValid = true;
 
@@ -73,14 +80,15 @@ public class WishDetailViewModel : ViewModel, IQueryAttributable
         
         if (!isValid) return;
         
-        Debugger.Log(0, "WishList", WishItem.ToString());
+        await _wishItemService.SaveWishItemAsync(WishItem.AsModel());
+        await _navigationService.GoBackAsync();
     }
     
     // PARAMETERS CHECKER
     
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (query.TryGetValue(NavigationParameters.WishItem, out var wishItem) && wishItem is WishItemUiModel wish)
+        if (query.TryGetValue(NavigationParameters.WishItem, out var wishItem) && wishItem is WishItemViewModel wish)
         {
             WishItem = wish;
         }

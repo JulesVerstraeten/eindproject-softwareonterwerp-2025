@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
+using WishList.BL.Interfaces;
+using WishList.Maui.Extensions;
 using WishList.Maui.Interfaces;
 using WishList.Maui.Models;
 using WishList.Maui.Services;
@@ -10,21 +12,23 @@ namespace WishList.Maui.ViewModels;
 public class PersonDetailViewModel : ViewModel, IQueryAttributable
 {
     private readonly INavigationService _navigationService;
+    private readonly IPersonService _personService;
 
-    public PersonDetailViewModel(INavigationService navigationService)
+    public PersonDetailViewModel(INavigationService navigationService, IPersonService personService)
     {
         _navigationService = navigationService;
+        _personService = personService;
         
         CancelCommand = new Command(Cancel);
-        SavePersonCommand = new Command(SavePerson);
+        SavePersonCommand = new Command(async void () => await SavePerson());
 
-        PersonToSave = new PersonUiModel();
+        PersonToSave = new PersonViewModel();
     }
     
     // PROPERTIES
 
-    private PersonUiModel _personToSave;
-    public PersonUiModel PersonToSave
+    private PersonViewModel _personToSave;
+    public PersonViewModel PersonToSave
     {
         get => _personToSave;
         set => SetProperty(ref _personToSave, value);
@@ -44,9 +48,9 @@ public class PersonDetailViewModel : ViewModel, IQueryAttributable
 
     private void Cancel() => _navigationService.GoBackAsync();
 
-    private void SavePerson()
+    private async Task SavePerson()
     {
-        bool isValid = true;
+        var isValid = true;
 
         if (string.IsNullOrWhiteSpace(PersonToSave.FirstName))
         {
@@ -60,7 +64,8 @@ public class PersonDetailViewModel : ViewModel, IQueryAttributable
         
         if (!isValid) return;
         
-        Debugger.Log(1, "Person", PersonToSave.FullName);
+        await _personService.SavePersonAsync(PersonToSave.AsModel());
+        await _navigationService.GoBackAsync();
     }
     
     // PARAMETER CHECKER
@@ -69,7 +74,7 @@ public class PersonDetailViewModel : ViewModel, IQueryAttributable
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (!query.TryGetValue(NavigationParameters.Person, out var personItem) ||
-            personItem is not PersonUiModel person) return;
+            personItem is not PersonViewModel person) return;
         PersonToSave = person;
     }
 }
