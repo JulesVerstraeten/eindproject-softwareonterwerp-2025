@@ -39,6 +39,11 @@ public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
         {
             People.Add(result.AsViewModel());
         }
+
+        if (ChristmasItem.ForPerson != null)
+        {
+            SelectedPerson = People.FirstOrDefault(p => p.Id == ChristmasItem.ForPerson.Id);
+        }
     }
     
     // PROPERTIES
@@ -55,6 +60,16 @@ public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
     {
         get => _christmasItem;
         set => SetProperty(ref _christmasItem, value);
+    }
+
+    private PersonViewModel? _selectedPerson;
+    public PersonViewModel? SelectedPerson
+    {
+        get => _selectedPerson;
+        set
+        {
+            SetProperty(ref _selectedPerson, value);
+        }
     }
 
     private string _priceInput;
@@ -102,6 +117,7 @@ public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
         if (!isValid) return;
         
         ChristmasItem.Price = string.IsNullOrWhiteSpace(PriceInput) ? null : double.Parse(PriceInput) ;
+        ChristmasItem.ForPerson = SelectedPerson;
         
         await _christmasItemService.SaveChristmasItemAsync(ChristmasItem.AsModel());
         await _navigationService.GoBackAsync();
@@ -116,10 +132,5 @@ public class ChristmasDetailViewModel : ViewModel, IQueryAttributable
         
         ChristmasItem = item;
         PriceInput = item.Price.ToString() ?? string.Empty;
-
-        if (item.ForPerson == null) return;
-        var matchedPerson = People.FirstOrDefault(p => p.Id == item.ForPerson.Id);
-        if (matchedPerson != null)
-            ChristmasItem.ForPerson = matchedPerson;
     }
 }

@@ -46,14 +46,16 @@ public class PersonListViewModel : ViewModel
         set => SetProperty(ref _people, value);
     }
     
-    private PersonViewModel _selectedPerson;
-    public PersonViewModel SelectedPerson
+    private PersonViewModel? _selectedPerson;
+    public PersonViewModel? SelectedPerson
     {
         get => _selectedPerson;
         set
         {
-            SetProperty(ref _selectedPerson, value);
+            if (!SetProperty(ref _selectedPerson, value)) return;
+            if (_selectedPerson == null) return;
             _navigationService.NavigateToPersonDetailPageAsync(value);
+            _selectedPerson = null;
         }
     }
     

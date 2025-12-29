@@ -1,6 +1,6 @@
 ﻿namespace WishList.Maui.Extensions;
 
-public class DbConstants
+public abstract class DbConstants
 {
     private const string DatabaseFilename = "WishList.db3";
     

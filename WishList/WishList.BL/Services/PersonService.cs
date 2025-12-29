@@ -18,7 +18,7 @@ public class PersonService(IPersonRepository personRepository): IPersonService
         }
         catch (Exception ex)
         {
-            throw new ServiceException("PersonService (GetAllPersonAsync): " + ex.Message);
+            throw new ServiceException("Error while retrieving all persons", ex);
         }
     }
 
@@ -32,7 +32,7 @@ public class PersonService(IPersonRepository personRepository): IPersonService
         }
         catch (Exception ex)
         {
-            throw new ServiceException("PersonService (GetPersonByIdAsync): " + ex.Message);
+            throw new ServiceException("Error while retrieving person by ID", ex);
         }
     }
 
@@ -46,7 +46,7 @@ public class PersonService(IPersonRepository personRepository): IPersonService
         }
         catch (Exception ex)
         {
-            throw new ServiceException("PersonService (SavePersonAsync): " + ex.Message);
+            throw new ServiceException("Error while saving person", ex);
         }
     }
 }

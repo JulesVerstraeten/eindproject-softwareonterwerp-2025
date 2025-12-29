@@ -48,8 +48,10 @@ public class WishListViewModel : ViewModel
         get => _selectedWishItem;
         set
         {
-            SetProperty(ref _selectedWishItem, value);
+            if (!SetProperty(ref _selectedWishItem, value)) return;
+            if (_selectedWishItem == null) return;
             _navigationService.NavigateToDetailWishPageAsync(_selectedWishItem);
+            _selectedWishItem = null;
         }
     }
 

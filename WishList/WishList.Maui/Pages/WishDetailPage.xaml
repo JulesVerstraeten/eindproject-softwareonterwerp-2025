@@ -19,7 +19,7 @@
             <Entry Placeholder="www.webstore.com/book" Text="{Binding WishItem.WebsiteUrl}"/>
             
             <Label Text="Description"/>
-            <Entry Placeholder="my favorite book" Text="{Binding WishItem.Description}"/>
+            <Editor AutoSize="TextChanges" HeightRequest="150" Placeholder="my favorite book" Text="{Binding WishItem.Description}"/>
             
             <Label Text="{Binding WishItemError}" TextColor="Red"/>
             

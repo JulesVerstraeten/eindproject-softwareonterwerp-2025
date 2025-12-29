@@ -1,4 +1,5 @@
-﻿using WishList.BL.Exceptions;
+﻿using System.Diagnostics;
+using WishList.BL.Exceptions;
 using WishList.BL.Extensions;
 using WishList.BL.Interfaces;
 using WishList.BL.Models;
@@ -18,7 +19,7 @@ public class ChristmasItemService(IChristmasItemRepository christmasItemReposito
         }
         catch (Exception ex)
         {
-            throw new ServiceException("ChristmasItemService (GetAllChristmasItemsAsync): ", ex);
+            throw new ServiceException("Error while fetching all ChristmasItems", ex);
         }
     }
 
@@ -32,7 +33,7 @@ public class ChristmasItemService(IChristmasItemRepository christmasItemReposito
         }
         catch (Exception ex)
         {
-            throw new ServiceException("ChristmasItemService (GetChristmasItemByIdAsync): ", ex);
+            throw new ServiceException("Error while fetching ChristmasItem by ID", ex);
         }
     }
 
@@ -46,7 +47,7 @@ public class ChristmasItemService(IChristmasItemRepository christmasItemReposito
         }
         catch (Exception ex)
         {
-            throw new ServiceException("ChristmasItemService (SaveChristmasItemAsync): ", ex);
+            throw new ServiceException("Error while saving ChristmasItem", ex);
         }
     }
 }

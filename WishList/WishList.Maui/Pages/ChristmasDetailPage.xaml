@@ -21,14 +21,14 @@
             <Picker 
                 Title="Select a person"
                 ItemsSource="{Binding People}"
-                SelectedItem="{Binding ChristmasItem.ForPerson}"
+                SelectedItem="{Binding SelectedPerson, Mode=TwoWay}"
                 ItemDisplayBinding="{Binding FullName}"/>
             
             <Label Text="Price"/>
             <Entry Placeholder="19.99" Text="{Binding PriceInput}"/>
             
             <Label Text="Description"/>
-            <Entry Placeholder="my favorite book" Text="{Binding ChristmasItem.Description}"/>
+            <Editor AutoSize="TextChanges" HeightRequest="150" Placeholder="my favorite book" Text="{Binding ChristmasItem.Description}"/>
             
             <Label Text="{Binding ChristmasItemError}" TextColor="Red"/>
             
