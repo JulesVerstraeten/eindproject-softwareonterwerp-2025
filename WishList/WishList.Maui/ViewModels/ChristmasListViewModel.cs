@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using WishList.BL.Interfaces;
 using WishList.Maui.Extensions;
@@ -19,7 +20,7 @@ public class ChristmasListViewModel : ViewModel
     {
         _navigationService = navigationService;
         _christmasItemService = christmasItemService;
-        
+
         GoToChristmasDetailPageCommand = new Command(_goToChristmasDetailPage);
         GoToPeopleListPageCommand = new Command(_goToPeoplePage);
 
@@ -47,14 +48,16 @@ public class ChristmasListViewModel : ViewModel
         set => SetProperty(ref _people, value);
     }
     
-    private ChristmasItemViewModel? _selectedChristmasItem = null;
+    private ChristmasItemViewModel? _selectedChristmasItem;
     public ChristmasItemViewModel? SelectedChristmasItem
     {
         get => _selectedChristmasItem;
         set
         {
-            SetProperty(ref _selectedChristmasItem, value);
+            if (!SetProperty(ref _selectedChristmasItem, value)) return;
+            if (_selectedChristmasItem == null) return;
             _navigationService.NavigateToChristmasDetailPageAsync(_selectedChristmasItem);
+            SelectedChristmasItem = null; // reset voor volgende selectie
         }
     }
 
@@ -69,7 +72,7 @@ public class ChristmasListViewModel : ViewModel
     
     public ICommand GoToChristmasDetailPageCommand { get; }
     public ICommand GoToPeopleListPageCommand { get; }
-
+    
     private void _goToChristmasDetailPage()
     {
         _navigationService.NavigateToChristmasDetailPageAsync();

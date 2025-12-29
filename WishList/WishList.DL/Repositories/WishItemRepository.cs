@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using WishList.DL.Context;
 using WishList.DL.Entities;
+using WishList.DL.Exceptions;
 using WishList.DL.Interfaces;
 
 namespace WishList.DL.Repositories;
@@ -18,7 +19,7 @@ public class WishItemRepository(WishlistDbContext context) : IWishItemRepository
         }
         catch (Exception e)
         {
-            throw new Exception($"WishItemRepository: {e.Message}");
+            throw new RepositoryException("Error while fetching WishItems", e);
         }
     }
 
@@ -31,7 +32,7 @@ public class WishItemRepository(WishlistDbContext context) : IWishItemRepository
         }
         catch (Exception e)
         {
-            throw new Exception($"WishItemRepository: {e.Message}");
+            throw new RepositoryException("Error while fetching WishItem by ID", e);
         }
     }
 
@@ -39,7 +40,7 @@ public class WishItemRepository(WishlistDbContext context) : IWishItemRepository
     {
         try
         {
-            if (wishItem == null || wishItem.Id == 0)
+            if (wishItem.Id == 0)
             {
                 await _db.InsertAsync(wishItem);
             }
@@ -52,7 +53,7 @@ public class WishItemRepository(WishlistDbContext context) : IWishItemRepository
         }
         catch (Exception e)
         {
-            throw new Exception($"WishItemRepository: {e.Message}");
+            throw new RepositoryException("Error while saving WishItem", e);
         }
     }
 }

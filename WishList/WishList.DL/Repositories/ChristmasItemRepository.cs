@@ -1,6 +1,8 @@
-﻿using SQLite;
+﻿using System.Diagnostics;
+using SQLite;
 using WishList.DL.Context;
 using WishList.DL.Entities;
+using WishList.DL.Exceptions;
 using WishList.DL.Interfaces;
 
 namespace WishList.DL.Repositories;
@@ -37,7 +39,7 @@ public class ChristmasItemRepository(WishlistDbContext context) : IChristmasItem
         }
         catch (Exception e)
         {
-            throw new Exception($"ChristmasItemRepository: {e.Message}");
+            throw new RepositoryException("Error fetching all ChristmasItems", e);
         }
     }
 
@@ -54,7 +56,7 @@ public class ChristmasItemRepository(WishlistDbContext context) : IChristmasItem
         }
         catch (Exception e)
         {
-            throw new Exception($"ChristmasItemRepository: {e.Message}");
+            throw new RepositoryException("Error fetching ChristmasItem by ID", e);
         }
     }
 
@@ -75,7 +77,7 @@ public class ChristmasItemRepository(WishlistDbContext context) : IChristmasItem
         }
         catch (Exception e)
         {
-            throw new Exception($"ChristmasItemRepository: {e.Message}");
+            throw new RepositoryException("Error saving ChristmasItem", e);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using WishList.DL.Context;
 using WishList.DL.Entities;
+using WishList.DL.Exceptions;
 using WishList.DL.Interfaces;
 
 namespace WishList.DL.Repositories;
@@ -18,7 +19,7 @@ public class PersonRepository(WishlistDbContext context) : IPersonRepository
         }
         catch (Exception e)
         {
-            throw new Exception(e.Message);
+            throw new RepositoryException("Error while fetching all people", e);
         }
     }
 
@@ -33,7 +34,7 @@ public class PersonRepository(WishlistDbContext context) : IPersonRepository
         }
         catch (Exception e)
         {
-            throw new Exception(e.Message);
+            throw new RepositoryException("Error while fetching person by id", e);
         }
     }
 
@@ -41,7 +42,7 @@ public class PersonRepository(WishlistDbContext context) : IPersonRepository
     {
         try
         {
-            if (person.Id == 0 || person.Id == null)
+            if (person.Id == 0)
             {
                 await _db.InsertAsync(person);
             }
@@ -54,7 +55,7 @@ public class PersonRepository(WishlistDbContext context) : IPersonRepository
         }
         catch (Exception e)
         {
-            throw new Exception(e.Message);
+            throw new RepositoryException("Error while saving person", e);
         }
     }
 }

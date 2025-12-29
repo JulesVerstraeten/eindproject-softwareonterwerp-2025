@@ -20,7 +20,7 @@ public static class ChristmasItemMapper
                 FirstName = model.ForPerson.FirstName,
                 LastName = model.ForPerson.LastName
             } : null,
-            Price = null
+            Price = model.Price
         };
     }
 

@@ -18,7 +18,7 @@ public class WishItemService(IWishItemRepository wishItemRepository) : IWishItem
         }
         catch (Exception ex)
         {
-            throw new ServiceException("WishItemService (GetAllWishItemsAsync): ", ex);
+            throw new ServiceException("Error while retrieving all WishItems", ex);
         }
     }
 
@@ -32,7 +32,7 @@ public class WishItemService(IWishItemRepository wishItemRepository) : IWishItem
         }
         catch (Exception ex)
         {
-            throw new ServiceException("WishItemService (GetWishItemByIdAsync): ", ex);
+            throw new ServiceException("Error while retrieving WishItem by ID", ex);
         }
     }
 
@@ -46,7 +46,7 @@ public class WishItemService(IWishItemRepository wishItemRepository) : IWishItem
         }
         catch (Exception ex)
         {
-            throw new ServiceException("WishItemService (SaveWishItemAsync): ", ex);
+            throw new ServiceException("Error while saving WishItem", ex);
         }
     }
 }
